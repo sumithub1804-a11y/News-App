@@ -60,6 +60,73 @@ body {
     border: none;
     padding: 1rem;
     border-radius: 10px;
-    margin-bottom: 0.5rem;
-    background: rgba(255,255,255,0.9);
-}
+    :root {
+        --primary-color: #dc3545;
+        --secondary-color: #f8f9fa;
+    }
+
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .news-card {
+        transition: all 0.3s ease;
+        border: none;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .news-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .fav-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(255,193,7,0.9);
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        z-index: 10;
+    }
+
+    .fav-btn:hover {
+        background: #ffc107;
+        transform: scale(1.1);
+    }
+
+    .fav-btn.active {
+        background: #ff6b35;
+    }
+
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+
+    #favoritesList .list-group-item {
+        border: none;
+        padding: 1rem;
+        border-radius: 10px;
+        margin-bottom: 0.5rem;
+        background: rgba(255,255,255,0.9);
+    }
+
+    /* Language selector sizing inside navbar */
+    .navbar .form-select-sm {
+        width: 150px;
+    }

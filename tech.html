@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technology News Feed</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .news-container { display: grid; gap: 20px; }
+        .news-item { border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .news-header { background: #007bff; color: white; padding: 10px; margin: 0; }
+        .news-image { width: 100%; height: 200px; object-fit: cover; }
+        .news-content { padding: 15px; }
+        .news-title { font-size: 1.2em; margin: 0 0 10px; }
+        .news-desc { color: #666; margin-bottom: 10px; }
+        .news-link { color: #007bff; text-decoration: none; font-weight: bold; }
+        .news-link:hover { text-decoration: underline; }
+        .loading { text-align: center; padding: 50px; font-style: italic; }
+        .error { color: red; text-align: center; }
+        /* back button */
+        .back-btn { display: inline-block; margin: 10px 0 20px; background: #dc3545; color: #fff; padding: 8px 12px; border-radius: 6px; text-decoration: none; }
+        .back-btn:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <h1>Latest Technology News</h1>
+    <p><a class="back-btn" href="index.html">&#8592;</a></p>
+    <div id="newsContainer" class="news-container">
+        <div class="loading">Loading latest tech news...</div>
+    </div>
+
+    <script>
+        // Free News API - Get your free key at https://www.thenewsapi.com (1000 req/month free)
+        // Replace 'YOUR_API_KEY' with your actual key
+        const API_KEY = 'YOUR_API_KEY'; // Demo: Uses placeholder
+        const API_URL = `https://api.thenewsapi.com/v1/news/top?api_token=${API_KEY}&search=technology&language=en&limit=10`;
+
+        // Fallback static news for demo (no API key needed)
+        const fallbackNews = [
+            { title: "AI Breakthrough in Quantum Computing", description: "Researchers achieve new milestone in hybrid AI-quantum systems.", url: "https://example.com/ai-quantum", image: "https://via.placeholder.com/800x200/007bff/ffffff?text=AI+Tech" },
+            { title: "New Electric Vehicle Battery Tech", description: "Solid-state batteries promise 2x range and faster charging.", url: "https://example.com/ev-battery", image: "https://via.placeholder.com/800x200/28a745/ffffff?text=EV+Battery" },
+            { title: "5G-Advanced Rollout Begins", description: "Carriers deploy next-gen 5G with AI-optimized networks.", url: "https://example.com/5g-advanced", image: "https://via.placeholder.com/800x200/dc3545/ffffff?text=5G+Advanced" }
+        ];
+
+        async function fetchNews() {
+            const container = document.getElementById('newsContainer');
+            try {
+                if (API_KEY === 'YOUR_API_KEY') {
+                    throw new Error('API key required');
+                }
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                displayNews(data.data || []);
+            } catch (error) {
+                console.log('Using fallback news:', error.message);
+                displayNews(fallbackNews);
+            }
+        }
+
+        function displayNews(articles) {
+            const container = document.getElementById('newsContainer');
+            container.innerHTML = '';
+            articles.forEach(article => {
+                const item = document.createElement('div');
+                item.className = 'news-item';
+                item.innerHTML = `
+                    <h2 class="news-header">${article.source?.name || 'Tech News'}</h2>
+                    ${article.image_url ? `<img src="${article.image_url}" alt="${article.title}" class="news-image">` : ''}
+                    <div class="news-content">
+                        <h3 class="news-title">${article.title}</h3>
+                        <p class="news-desc">${article.description || 'Read more about this technology update.'}</p>
+                        <a href="${article.url}" target="_blank" class="news-link">Read Full Article</a>
+                        <p><small>Published: ${new Date(article.published_at).toLocaleDateString()}</small></p>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // Load news on page load
+        fetchNews();
+    </script>
+</body>
+</html>
